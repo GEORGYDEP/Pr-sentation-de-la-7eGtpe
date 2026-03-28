@@ -293,12 +293,12 @@ footer{padding:2.5rem 0;border-top:1px solid rgba(255,255,255,.06);text-align:ce
 <div class="cta-contact reveal reveal-delay-4">
 <span>📍 Rue des Dames 77, 7080 Frameries</span>
 <span>📞 <a href="tel:065673382">065/67.33.82</a></span>
-<span>✉️ <a href="mailto:secretariat-frameries@istlm.org">secretariat-frameries@istlm.org</a></span>
+<span>✉️ <a href="/cdn-cgi/l/email-protection#6013050312051401120901144d0612010d0512090513200913140c0d4e0f1207"><span class="__cf_email__" data-cfemail="1b687e78697e6f7a69727a6f367d697a767e69727e685b72686f77763574697c">[email&#160;protected]</span></a></span>
 </div></div></section>
 
 <footer><div class="container"><p>© 2025 Instituts Saint-Luc de Frameries — 7<sup>e</sup> GTPE · <a href="https://www.istl.be" target="_blank">istl.be</a></p></div></footer>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 const navbar=document.getElementById('navbar');window.addEventListener('scroll',()=>{navbar.classList.toggle('scrolled',window.scrollY>60)});
 const toggle=document.getElementById('menuToggle'),links=document.getElementById('navLinks');toggle.addEventListener('click',()=>links.classList.toggle('open'));links.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>links.classList.remove('open')));
 const revealEls=document.querySelectorAll('.reveal');const observer=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');observer.unobserve(e.target)}})},{threshold:.12,rootMargin:'0px 0px -40px 0px'});revealEls.forEach(el=>observer.observe(el));
@@ -307,5 +307,29 @@ document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click'
 var SCRIPT_URL='https://script.google.com/macros/s/AKfycbzjJnQJz7lEFM1JkuP0hANaX0Jq-rzzsUkBgNQ8qDTyydic7DvAyUYR0K7y19-djGe6vg/exec';
 function toggleAutreEcole(){var s=document.getElementById('fEcole'),w=document.getElementById('ecoleAutreWrapper');if(s.value==='__autre__'){w.classList.add('show');document.getElementById('fEcoleAutre').focus()}else{w.classList.remove('show');document.getElementById('fEcoleAutre').value=''}}
 function envoyerInscription(){var prenom=document.getElementById('fPrenom').value.trim(),nom=document.getElementById('fNom').value.trim(),email=document.getElementById('fEmail').value.trim(),gsm=document.getElementById('fGsm').value.trim(),age=document.getElementById('fAge').value,annee=document.getElementById('fAnnee').value,filiere=document.getElementById('fFiliere').value,ecoleSelect=document.getElementById('fEcole').value,ecoleAutre=document.getElementById('fEcoleAutre').value.trim(),ecole=(ecoleSelect==='__autre__')?ecoleAutre:ecoleSelect;if(!prenom||!nom){alert('Veuillez indiquer votre prénom et votre nom.');return}if(!email&&!gsm){alert('Veuillez indiquer au moins un e-mail ou un numéro de GSM.');return}if(!age){alert('Veuillez sélectionner votre âge.');return}if(!ecole){alert('Veuillez indiquer votre école actuelle.');return}if(!annee){alert('Veuillez sélectionner votre année scolaire.');return}if(!filiere){alert('Veuillez sélectionner votre filière.');return}var btn=document.getElementById('btnSubmit');btn.disabled=true;btn.textContent='⏳ Envoi en cours...';fetch(SCRIPT_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain'},body:JSON.stringify({a:prenom,b:nom,c:email,d:gsm,e:age,f:ecole,g:annee,h:filiere})}).then(function(){document.getElementById('formContent').style.display='none';document.getElementById('formSuccess').classList.add('show')}).catch(function(err){console.error('Erreur envoi :',err);alert('Une erreur est survenue. Veuillez réessayer.');btn.disabled=false;btn.textContent='✉️ Envoyer ma préinscription'})}
+
+// ═══════════════ SUIVI DES VISITEURS ═══════════════
+var TRACKER_URL = 'https://script.google.com/macros/s/AKfycbwHzA6aRUtdTkPycAFznto-mbsnN1ZxzjoN48Ep4n4OEc0tKTwgF0iV--pY6az4PJqv/exec';
+(function() {
+  if (!sessionStorage.getItem('visitorSessionId')) {
+    sessionStorage.setItem('visitorSessionId', 'V-' + Date.now().toString(36) + '-' + Math.random().toString(36).substring(2, 7));
+  }
+  var sessionId = sessionStorage.getItem('visitorSessionId');
+  try {
+    fetch(TRACKER_URL, {
+      method: 'POST', mode: 'no-cors',
+      headers: { 'Content-Type': 'text/plain' },
+      body: JSON.stringify({
+        a: sessionId,
+        b: '7e GTPE - Gestion TPE',
+        c: window.location.href,
+        d: document.referrer || 'direct',
+        e: navigator.userAgent.substring(0, 150),
+        f: screen.width + 'x' + screen.height
+      })
+    });
+  } catch(err) {}
+})();
 </script>
-</body></html>
+</body>
+</html>
